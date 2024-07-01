@@ -31,7 +31,6 @@ func main() {
 		}
 
 		cache.SetLastTimestamp(time.Now())
-
 		c.String(http.StatusOK, "ok")
 	})
 
