@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/stokkelol/lightbot/pkg/watcher"
@@ -17,6 +18,7 @@ func main() {
 	pprof.Register(server)
 
 	token := os.Getenv("AUTH_TOKEN")
+	telegramToken := os.Getenv("TELEGRAM_TOKEN")
 
 	cache := watcher.NewWatcher()
 
@@ -31,6 +33,17 @@ func main() {
 		cache.SetLastTimestamp(time.Now())
 
 		c.String(http.StatusOK, "ok")
+	})
+
+	updateRoute := fmt.Sprintf("/%s/get", telegramToken)
+	server.GET(updateRoute, func(c *gin.Context) {
+		if time.Now().Add(-60 * time.Second).After(time.Unix(cache.GetLastTimestamp(), 0)) {
+			c.String(http.StatusOK, "new updates")
+
+			return
+		}
+
+		c.String(http.StatusOK, "no updates")
 	})
 
 	bot := watcher.NewWatcher()
