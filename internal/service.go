@@ -1,5 +1,5 @@
-// Package service provides a set of functions to create new instances of different internal services
-package service
+// Package internal provides a set of functions to create new instances of different internal services
+package internal
 
 var (
 	// Version is the version of the binary

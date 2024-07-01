@@ -23,8 +23,6 @@ WORKDIR /app
 
 ## copy needed
 COPY --from=builder /app/cmd/app ./
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /app/migrations ./migrations
 EXPOSE $PORT
 CMD ["./app"]
 
