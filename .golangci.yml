@@ -1,0 +1,93 @@
+run:
+  timeout: 7m
+  concurrency: 2
+  issues-exit-code: 1
+
+output:
+  formats:
+    - format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters:
+  enable-all: true
+  disable:
+    - typecheck
+    - wastedassign #TODO::remove it
+    - ineffassign #TODO::remove it
+    - musttag #TODO::remove it
+    - forcetypeassert # Maybe it's a good point, we should always check the type of assertion
+    - nolintlint
+    - exhaustive
+    - goimports
+    - durationcheck
+    - containedctx
+    - interfacebloat
+    - forbidigo
+    - ireturn
+    - depguard
+    - gochecknoglobals
+    - nakedret
+    - dupl
+    - wsl
+    - godox
+    - goconst
+    - godot
+    - gofumpt
+    - gomnd
+    - wrapcheck
+    # collision with goimports, they suggest the different import styles
+    - gci
+    - gocritic
+    - tagliatelle
+    - exhaustruct
+    - varnamelen
+    - stylecheck # TODO: remove later
+    - typecheck
+    - revive # TODO: remove later, package comments conflict with go generate
+
+linters-settings:
+  gofmt:
+    simplify: false
+  cyclop:
+    max-complexity: 25
+  gocyclo:
+    min-complexity: 25
+  lll:
+    line-length: 200
+  prealloc:
+    simple: true
+    range-loops: true
+    for-loops: true
+  goconst:
+    min-len: 2
+    min-occurrences: 2
+  misspell:
+    locale: US
+  gocritic:
+    enabled-tags:
+      - performance
+      - style
+      - experimental
+    disabled-checks:
+      - unnamedResult
+      - paramTypeCombine
+      - whyNoLint
+
+  funlen:
+    lines: 300 #TODO::change to 100
+    statements: 75
+
+issues:
+  exclude-rules:
+    - text: "weak cryptographic primitive"
+      linters:
+        - gosec
+  exclude-use-default: false
+  exclude-files:
+    - _test\.go
+  exclude-dirs:
+    - tests
+    - migrations
+
+
