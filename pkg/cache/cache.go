@@ -19,3 +19,11 @@ func (c *Cache) SetLastTimestamp(t int64) {
 	c.lastTimestamp = t
 	c.mu.Unlock()
 }
+
+// GetLastTimestamp returns the last timestamp
+func (c *Cache) GetLastTimestamp() int64 {
+	c.mu.RLock()
+	defer c.mu.RUnlock()
+
+	return c.lastTimestamp
+}

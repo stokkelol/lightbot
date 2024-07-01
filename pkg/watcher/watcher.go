@@ -27,3 +27,8 @@ func (w *Watcher) Run() {
 func (w *Watcher) SetLastTimestamp(t time.Time) {
 	w.cache.SetLastTimestamp(t.Unix())
 }
+
+// GetLastTimestamp returns the last timestamp
+func (w *Watcher) GetLastTimestamp() int64 {
+	return w.cache.GetLastTimestamp()
+}
