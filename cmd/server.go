@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
+	"github.com/stokkelol/lightbot/pkg/bot"
 	"github.com/stokkelol/lightbot/pkg/watcher"
 	"log"
 	"net/http"
@@ -31,24 +31,21 @@ func main() {
 		}
 
 		cache.SetLastTimestamp(time.Now())
+
 		c.String(http.StatusOK, "ok")
 	})
 
-	updateRoute := fmt.Sprintf("/%s/get", telegramToken)
-	server.GET(updateRoute, func(c *gin.Context) {
-		if time.Now().Add(-60 * time.Second).After(time.Unix(cache.GetLastTimestamp(), 0)) {
-			c.String(http.StatusOK, "new updates")
+	watch := watcher.NewWatcher()
+	go watch.Run()
 
-			return
-		}
+	b, err := bot.New(telegramToken)
+	if err != nil {
+		log.Fatalf("new bot: %v", err)
+	}
 
-		c.String(http.StatusOK, "no updates")
-	})
+	go b.Run()
 
-	bot := watcher.NewWatcher()
-	go bot.Run()
-
-	if err := server.Run(os.Getenv("SERVER_ADDR")); err != nil {
+	if err = server.Run("0.0.0.0:9000"); err != nil {
 		log.Fatalf("server run: %v", err)
 	}
 }
