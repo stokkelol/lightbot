@@ -3,6 +3,7 @@ module github.com/stokkelol/lightbot
 go 1.22
 
 require (
+	github.com/dgraph-io/badger v1.6.2
 	github.com/gin-contrib/pprof v1.5.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-telegram-bot-api/telegram-bot-api v4.6.4+incompatible
@@ -15,7 +16,6 @@ require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
-	github.com/dgraph-io/badger v1.6.2 // indirect
 	github.com/dgraph-io/ristretto v0.0.2 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
