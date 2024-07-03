@@ -114,12 +114,11 @@ func (b *Bot) handleCommand(update telegram.Update) {
 	var txt string
 	switch update.Message.Command() {
 	case helpCommand:
-		txt = "TODO"
+		txt = help
 	case checkCommand:
-		txt = "Світло є чи нема?"
+		txt = "Світло є чи нема? "
 		if diff := time.Now().Sub(b.cache.GetLastTimestamp()); diff > 60*time.Second {
-			txt += "Світла нема."
-			txt += fmt.Sprintf("Останній раз було о %s", b.cache.GetLastTimestamp().Format("15:04:05"))
+			txt += fmt.Sprintf("Світла нема. Останній раз було о %s", b.cache.GetLastTimestamp().Format("15:04:05"))
 		} else {
 			txt += "Світло є."
 		}

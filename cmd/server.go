@@ -4,6 +4,7 @@ import (
 	"github.com/stokkelol/lightbot/pkg/bot"
 	"github.com/stokkelol/lightbot/pkg/cache"
 	"log"
+	"log/slog"
 	"net/http"
 	"os"
 	"time"
@@ -26,6 +27,7 @@ func main() {
 			return
 		}
 
+		slog.Info("ping", slog.Attr{Key: "timestamp", Value: slog.StringValue(timeCache.GetLastTimestamp().String())})
 		timeCache.SetLastTimestamp(time.Now())
 
 		rw.WriteHeader(http.StatusOK)
