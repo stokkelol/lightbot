@@ -124,7 +124,7 @@ func (b *Bot) handleCommand(update telegram.Update) {
 		}
 	}
 
-	msg := telegram.NewMessage(update.Message.Chat.ID, help)
+	msg := telegram.NewMessage(update.Message.Chat.ID, txt)
 	msg.ReplyToMessageID = update.Message.MessageID
 	_, err := b.bot.Send(msg)
 	if err != nil {
