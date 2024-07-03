@@ -1,11 +1,14 @@
 package cache
 
-import "sync"
+import (
+	"sync"
+	"time"
+)
 
 // Cache is a simple struct that holds the last timestamp
 type Cache struct {
 	mu            sync.RWMutex
-	lastTimestamp int64
+	lastTimestamp time.Time
 }
 
 // NewCache creates a new cache
@@ -14,14 +17,14 @@ func NewCache() *Cache {
 }
 
 // SetLastTimestamp sets the last timestamp
-func (c *Cache) SetLastTimestamp(t int64) {
+func (c *Cache) SetLastTimestamp(t time.Time) {
 	c.mu.Lock()
 	c.lastTimestamp = t
 	c.mu.Unlock()
 }
 
 // GetLastTimestamp returns the last timestamp
-func (c *Cache) GetLastTimestamp() int64 {
+func (c *Cache) GetLastTimestamp() time.Time {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 

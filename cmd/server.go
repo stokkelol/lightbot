@@ -4,7 +4,7 @@ import (
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/stokkelol/lightbot/pkg/bot"
-	"github.com/stokkelol/lightbot/pkg/watcher"
+	"github.com/stokkelol/lightbot/pkg/cache"
 	"log"
 	"net/http"
 	"os"
@@ -20,7 +20,7 @@ func main() {
 	token := os.Getenv("AUTH_TOKEN")
 	telegramToken := os.Getenv("TELEGRAM_TOKEN")
 
-	cache := watcher.NewWatcher()
+	timeCache := cache.NewCache()
 
 	server.GET("/ping", func(c *gin.Context) {
 		header := c.GetHeader(authHeader)
@@ -30,15 +30,12 @@ func main() {
 			return
 		}
 
-		cache.SetLastTimestamp(time.Now())
+		timeCache.SetLastTimestamp(time.Now())
 
 		c.String(http.StatusOK, "ok")
 	})
 
-	watch := watcher.NewWatcher()
-	go watch.Run()
-
-	b, err := bot.New(telegramToken)
+	b, err := bot.New(telegramToken, timeCache)
 	if err != nil {
 		log.Fatalf("new bot: %v", err)
 	}
