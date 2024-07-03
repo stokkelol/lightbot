@@ -8,7 +8,7 @@ ARG BUILD_DATE
 
 COPY ./go.mod ./go.sum ./
 RUN go mod download
-RUN go install github.com/cosmtrek/air
+RUN go install github.com/air-verse/air
 
 COPY ./ ./
 RUN cd cmd && CGO_ENABLED=0 GOOS=linux GOEXPERIMENT=rangefunc go build -o app \
