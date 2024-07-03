@@ -12,10 +12,10 @@ import (
 
 const dbPath = "/db"
 
-const helpCommand = "help"
-const checkCommand = "check"
+const helpCommand = "/help"
+const checkCommand = "/check"
 const help = `
-	Hey there! I'm SvitlaBot and I'm here to help you with the one simple questions - "Світло є чи нема?"
+	Hey there! I'm LightBot and I'm here to help you with the one simple question - "Світло є чи нема?"
 `
 
 type commandHandler interface {
