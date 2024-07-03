@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/gin-contrib/pprof"
-	"github.com/gin-gonic/gin"
 	"github.com/stokkelol/lightbot/pkg/bot"
 	"github.com/stokkelol/lightbot/pkg/cache"
 	"log"
@@ -14,25 +12,23 @@ import (
 const authHeader = "X-Client-Auth"
 
 func main() {
-	server := gin.Default()
-	pprof.Register(server)
 
 	token := os.Getenv("AUTH_TOKEN")
 	telegramToken := os.Getenv("TELEGRAM_TOKEN")
 
 	timeCache := cache.NewCache()
 
-	server.GET("/ping", func(c *gin.Context) {
-		header := c.GetHeader(authHeader)
+	http.HandleFunc("/ping", func(rw http.ResponseWriter, req *http.Request) {
+		header := req.Header.Get(authHeader)
 		if header != token {
-			c.String(http.StatusUnauthorized, "unauthorized")
+			http.Error(rw, "unauthorized", http.StatusUnauthorized)
 
 			return
 		}
 
 		timeCache.SetLastTimestamp(time.Now())
 
-		c.String(http.StatusOK, "ok")
+		rw.WriteHeader(http.StatusOK)
 	})
 
 	b, err := bot.New(telegramToken, timeCache)
@@ -42,7 +38,7 @@ func main() {
 
 	go b.Run()
 
-	if err = server.Run("0.0.0.0:9000"); err != nil {
+	if err = http.ListenAndServe("0.0.0.0:9000", nil); err != nil {
 		log.Fatalf("server run: %v", err)
 	}
 }
