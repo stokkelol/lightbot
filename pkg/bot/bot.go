@@ -12,8 +12,8 @@ import (
 
 const dbPath = "/db"
 
-const helpCommand = "/help"
-const checkCommand = "/check"
+const helpCommand = "help"
+const checkCommand = "check"
 const help = `
 	Hey there! I'm SvitlaBot and I'm here to help you with the one simple questions - "Світло є чи нема?"
 `
